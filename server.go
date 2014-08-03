@@ -9,8 +9,6 @@ import (
 	"image/color"
 	"strconv"
 	"image/png"
-	
-	
 )
 
 const MaxI = 1000
@@ -97,7 +95,7 @@ func mandlebrot(response http.ResponseWriter, request *http.Request) {
 
 func init() {
 	http.HandleFunc("/", index)
-	http.HandleFunc("/mandlebrot/", mandlebrot)
+	http.HandleFunc("/mandelbrot/", mandlebrot)
 }
 
 func returnFile(response http.ResponseWriter, filename string) {

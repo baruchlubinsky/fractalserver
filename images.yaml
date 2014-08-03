@@ -1,4 +1,4 @@
-application: mandlebrotserver
+application: mandelbrotserver
 
 module: images
 version: 1

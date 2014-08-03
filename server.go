@@ -66,8 +66,6 @@ func ColorFor(value int) color.Color {
 	return color.RGBA{uint8(value -128), uint8(value + 128), uint8(value), uint8(255)}
 }
 
-const PORT = ":16000"
-
 func index(response http.ResponseWriter, request *http.Request) {
 	returnFile(response, "index.html")
 }

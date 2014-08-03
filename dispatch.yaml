@@ -1,0 +1,5 @@
+application: mandlebrotserver
+
+dispatch:
+  - url: "*/mandlebrot*"
+    module: images

@@ -1,0 +1,70 @@
+<html>
+<head>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script>
+	var X = 0;
+	var Y = 0;
+	var Zoom = 2;
+
+	imgString = function(x, y, zoom) {
+		return "<img src='/mandlebrot/?x="+x+"&y="+y+"&zoom="+zoom+"' width=256 height=256>";
+	}
+
+	drawFractal = function(x, y, zoom) {
+		X = x;
+		Y = y;
+		Zoom = zoom;
+		var element = $("div#fractalframe");
+		var width = element.attr("data-width");
+		var height = element.attr("data-height");
+		var size = height;
+		var stride = 2.0 / zoom;
+		stride = stride + stride / 256.0;
+		if (width % 2 == 0) {
+			var topX = x - (stride * ((width + 1)/ 2.0));
+		} else {
+			var topX = x - (stride * (width / 2.0));
+		}
+		if (height % 2 == 0) {
+			var topY = y + (stride * ((height - 1)/ 2.0));
+		} else {
+			var topY = y + (stride * (height / 2.0));
+		}
+		var image = "";
+		for(var j = 0; j < height; j++) {
+			for(var i = 0; i < width; i++) {
+				var thisX = topX + (i * stride);
+				var thisY = topY - (j * stride);
+				image = image + imgString(thisX, thisY, zoom);
+			}
+			image = image + "</br>";
+		}
+		element.html(image);
+	}
+
+	$(document).ready(function() {
+		drawFractal(0, 0, 2);
+		$("div#fractalframe").click(function(event) {
+			var self = $(this);
+			var dX = 2.0 / Zoom / 256.0;
+			var dY = 2.0 / Zoom / 256.0;
+			var x = X + ((event.pageX - self.offset().left) - (self.attr("data-width") * 256.0 / 2.0)) * dX;
+			var y = Y + ((self.attr("data-height") * 256.0 / 2.0) - (event.pageY - self.offset().top)) * dY;
+			var zoom = Zoom * 2;
+			drawFractal(x, y, zoom);
+		});
+	})
+	</script>
+	<title>Mandlebrot server</title>
+</head>
+<body>
+	<h1>Mandlebrot set</h1>
+	<h4>Click to zoom</h4>
+	<div id="fractalframe" data-width="3" data-height="2">
+	
+	</div>
+	<p>
+		View the source of this page, or simply the URLs of the images for documentation of the api.
+	</p>
+</body>
+</html>

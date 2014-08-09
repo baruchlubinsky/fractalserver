@@ -1,7 +1,7 @@
 application: mandelbrotserver
 
 module: images
-version: 1
+version: uno
 runtime: go
 api_version: go1
 instance_class: B8
@@ -10,5 +10,8 @@ basic_scaling:
   idle_timeout: 1m
 
 handlers:
-- url: /.*
+- url: /mandelbrot/.*
+  script: _go_app
+
+- url: /_ah/.*
   script: _go_app

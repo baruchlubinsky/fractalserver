@@ -2,13 +2,11 @@ package main
 
 import (
 	"math/cmplx"
-	"net/http"
-	"os"
-	"io/ioutil"
 	"image"
 	"image/color"
 	"strconv"
 	"image/png"
+	"net/http"
 )
 
 const MaxI = 1000
@@ -66,8 +64,11 @@ func ColorFor(value int) color.Color {
 	return color.RGBA{uint8(value -128), uint8(value + 128), uint8(value), uint8(255)}
 }
 
-func index(response http.ResponseWriter, request *http.Request) {
-	returnFile(response, "index.html")
+func init() {
+	http.HandleFunc("/mandelbrot/", mandlebrot)
+	http.HandleFunc("/_ah/_start", func (response http.ResponseWriter, request *http.Request) {
+		response.WriteHeader(200)
+		})
 }
 
 func mandlebrot(response http.ResponseWriter, request *http.Request) {
@@ -89,19 +90,4 @@ func mandlebrot(response http.ResponseWriter, request *http.Request) {
 	}
 	image := DrawFractal(complex(x0,y0),zoom)
 	png.Encode(response, image)
-}
-
-func init() {
-	http.HandleFunc("/", index)
-	http.HandleFunc("/mandelbrot/", mandlebrot)
-}
-
-func returnFile(response http.ResponseWriter, filename string) {
-	file, err := os.Open(filename)
-	if err != nil {
-		response.WriteHeader(400)
-		return
-	}
-	data, _ := ioutil.ReadAll(file)
-	response.Write(data) 
 }

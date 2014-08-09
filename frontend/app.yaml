@@ -1,9 +1,9 @@
 application: mandelbrotserver
-version: 1
+version: uno
 runtime: go
 api_version: go1
 
 module: default
 handlers:
-- url: /.*
+- url: /
   script: _go_app

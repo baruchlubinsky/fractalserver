@@ -1,5 +1,8 @@
 application: mandelbrotserver
 
 dispatch:
-  - url: "*/mandlebrot*"
-    module: images
+    - url: "*/"
+      module: "default"
+
+    - url: "*/mandelbrot/*"
+      module: "images"
